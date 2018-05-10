@@ -24,25 +24,26 @@ features = ["salary", "bonus"]
 #print(data_dict.keys())
 data_dict.pop('TOTAL',0)
 
-a=[]
-b=[]
+salary=[]
+bonus=[]
 
 for key in data_dict:
     if data_dict[key]['salary']!='NaN':
         if int(data_dict[key]['salary'])>600000:
-            a.append(key)
+            salary.append(key)  #people who having salary more than 600000
     if data_dict[key]['bonus']!='NaN':
         if int(data_dict[key]['bonus'])>4000000:
-            b.append(key)
-#print(b) 
-#print(a)
-for j in b:
-    data_dict.pop(j)            
+            bonus.append(key) #peopl having bonus more than 4000000
+#print(bonus) 
+#print(salary)
+for outlier in bonus:
+    data_dict.pop(outlier)            
 for i in a:
     try:
         data_dict.pop(i)
     except:
             continue     
+    #removing outlier        
 #or point in data_dict:
 #    salary = point[0]
 #    bonus = point[1]
@@ -71,39 +72,41 @@ o=(sorted(outliers,key=lambda x:x[1],reverse=True)[:4])
 ### Store to my_dataset for easy export below.
 
 def dict_to_list(key,normalizer):
-    l=[]
+    lists=[]
     for i in data_dict:
         if data_dict[i][key]=="NaN" or data_dict[i][normalizer]=="NaN":
-            l.append(0.)
+            lists.append(0.)
         elif data_dict[i][key]>=0: 
-            l.append(float(data_dict[i][key])/float(data_dict[i][normalizer]))
-    return l
+            lists.append(float(data_dict[i][key])/float(data_dict[i][normalizer]))
+    return lists
 fraction_from_poi_email=dict_to_list("from_poi_to_this_person","to_messages")
 fraction_to_poi_email=dict_to_list("from_this_person_to_poi","from_messages")
-
+#getting the fraction of emails send by or to person of intrests to all other peoples
 count=0
-c=[]
-d=[]
+from_poi=[]
+to_poi=[]
 for i in data_dict:
     data_dict[i]["fraction_from_poi_email"]=fraction_from_poi_email[count]
     data_dict[i]["fraction_to_poi_email"]=fraction_to_poi_email[count]
     count +=1
 for s in data_dict:
     if float(data_dict[s]["fraction_from_poi_email"])>0.15:
-        c.append(s)
+        from_poi.append(s)
     if float(data_dict[s]["fraction_to_poi_email"])>0.8:
-        d.append(s)
-#print(c,d)
-for w in c:
+        to_poi.append(s)
+#print(from_poi,to_poi)
+#creating lists for finding poi by this features
+for w in from_poi:
     try:
         data_dict.pop(w)
     except:
         continue
-for q in d:
+for q in to_poi:
     try:
         data_dict.pop(q)   
     except:
         continue
+ #removing the outlier       
 #for t in data_dict:
  #   try:
  #       print(data_dict[t]["fraction_from_poi_email"])
