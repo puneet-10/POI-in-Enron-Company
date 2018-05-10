@@ -1,4 +1,4 @@
-# POI-in-Enron-Company
+%# POI-in-Enron-Company
 Project Introduction
 In 2000, Enron was one of the largest companies in the United States.
 By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. 
@@ -9,3 +9,4 @@ email data made public as a result of the Enron scandal.
 To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which 
 means individuals who were indicted, reached a settlement, or plea deal with the government, or testified in exchange for prosecution 
 immunity.
+The accuracy I got After running the algorithm was 94%
